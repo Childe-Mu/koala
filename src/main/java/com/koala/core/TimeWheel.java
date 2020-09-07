@@ -1,8 +1,7 @@
-package com.koala.wheel;
+package com.koala.core;
 
 
-import com.koala.Bucket;
-import com.koala.TimedTask;
+import lombok.Getter;
 
 import java.util.concurrent.DelayQueue;
 
@@ -10,6 +9,7 @@ import java.util.concurrent.DelayQueue;
  * 时间轮，可以推进时间和添加任务
  * @author admin
  */
+@Getter
 public class TimeWheel {
 
     /**

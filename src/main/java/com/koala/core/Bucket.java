@@ -1,4 +1,4 @@
-package com.koala;
+package com.koala.core;
 
 import java.util.Date;
 import java.util.concurrent.Delayed;

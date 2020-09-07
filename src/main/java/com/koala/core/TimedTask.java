@@ -1,4 +1,4 @@
-package com.koala;
+package com.koala.core;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
