@@ -1,6 +1,5 @@
 package com.koala.core;
 
-
 import lombok.Getter;
 
 import java.util.concurrent.DelayQueue;
@@ -10,7 +9,7 @@ import java.util.concurrent.DelayQueue;
  * @author admin
  */
 @Getter
-public class TimeWheel {
+class TimeWheel {
 
     /**
      * 一个时间槽的时间（时间刻度，比如手表秒针刻度为1秒）
@@ -47,7 +46,7 @@ public class TimeWheel {
      */
     private DelayQueue<Bucket> delayQueue;
 
-    public TimeWheel(long tickTime, int wheelSize, long currentTimestamp, DelayQueue<Bucket> delayQueue) {
+    TimeWheel(long tickTime, int wheelSize, long currentTimestamp, DelayQueue<Bucket> delayQueue) {
         this.currentTimestamp = currentTimestamp;
         this.tickTime = tickTime;
         this.wheelSize = wheelSize;
@@ -74,7 +73,7 @@ public class TimeWheel {
     /**
      * 添加任务到某个时间轮
      */
-    public boolean addTask(TimedTask timedTask) {
+    boolean addTask(TimedTask timedTask) {
         long expireTimestamp = timedTask.getExpireTimestamp();
         long delayTime = expireTimestamp - currentTimestamp;
         // 这个任务的到期时间小于时间轮指针，过期了
@@ -107,7 +106,7 @@ public class TimeWheel {
     /**
      * 尝试推进一下指针
      */
-    public void advanceClock(long timestamp) {
+    void advanceClock(long timestamp) {
         if (timestamp >= currentTimestamp + tickTime) {
             currentTimestamp = timestamp - (timestamp % tickTime);
             if (overflowWheel != null) {

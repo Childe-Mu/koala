@@ -57,7 +57,7 @@ public class TimedTask {
      */
     public String desc;
 
-    public TimedTask(Long delayTime, Runnable task) {
+    TimedTask(Long delayTime, Runnable task) {
         this.delayTime = delayTime;
         this.task = task;
         this.bucket = null;
