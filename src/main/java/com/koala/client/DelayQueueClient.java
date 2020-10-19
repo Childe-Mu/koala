@@ -24,7 +24,7 @@ public class DelayQueueClient {
     private Map<DelayType, DelayRequestSender<?>> delayRequestSenders = Maps.newHashMap();
 
     public DelayQueueClient(BasicConfig basicConfig) {
-        this.delayRequestSenders.put(DelayType.MQ, DoveMqDelayRequestSender.newInstance(basicConfig));
+        // this.delayRequestSenders.put(DelayType.MQ, DoveMqDelayRequestSender.newInstance(basicConfig));
     }
 
     private DelayRequestSender getSender(DelayType delayType) {
@@ -40,7 +40,7 @@ public class DelayQueueClient {
         if (delayRequest == null) {
             return false;
         } else {
-            ValidationUtil.validationAndThrow(delayRequest, new Class[0]);
+            // ValidationUtil.validationAndThrow(delayRequest, new Class[0]);
             return this.getSender(delayRequest.getDelayType()).sendDelayRequest(delayRequest);
         }
     }
@@ -55,7 +55,7 @@ public class DelayQueueClient {
             return false;
         } else {
             delayRequests.forEach((x$0) -> {
-                ValidationUtil.validationAndThrow(x$0, new Class[0]);
+                // ValidationUtil.validationAndThrow(x$0, new Class[0]);
             });
             Map<String, List<T>> delayRequestsByNs = (Map) delayRequests.stream().collect(Collectors.groupingBy(BaseDelayRequest::getTaskNs));
             boolean result = true;

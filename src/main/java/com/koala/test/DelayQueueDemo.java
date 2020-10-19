@@ -22,7 +22,8 @@ public class DelayQueueDemo {
         System.out.println("订单延迟队列开始时间:" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         while (delayQueue.size() != 0) {
             // 取队列头部元素是否过期
-            Order task = delayQueue.poll();
+            // Order task = delayQueue.poll();
+            Order task = delayQueue.take();
             if (task != null) {
                 System.out.format("订单:{%s}被取消, 取消时间:{%s}\n", task.name, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             }
