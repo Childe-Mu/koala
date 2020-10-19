@@ -72,19 +72,10 @@ public class Timer {
         });
     }
 
-    public static void main(String[] args) {
-        // TimeWheel timeWheel = new TimeWheel(1000, 60, System.currentTimeMillis(), new DelayQueue<>());
-        TimedTask timedTask1 = new TimedTask(21 * 1000L, () -> System.out.println("task 1"));
-        TimedTask timedTask2 = new TimedTask(50 * 1000L, () -> System.out.println("task 2"));
-        TimedTask timedTask3 = new TimedTask(70 * 1000L, () -> System.out.println("task 3"));
-        getInstance().addTask(timedTask1);
-        getInstance().addTask(timedTask2);
-        getInstance().addTask(timedTask3);
-        System.out.println();
-    }
-
     /**
      * 将任务添加到时间轮
+     *
+     * @param timedTask 要添加的任务
      */
     public void addTask(TimedTask timedTask) {
         // 添加到时间轮中
