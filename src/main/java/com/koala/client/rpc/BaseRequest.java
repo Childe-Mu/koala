@@ -34,4 +34,9 @@ public class BaseRequest implements Serializable {
      * String类型延时数据(目前只支持String类型，长度限制为1Kb内)
      */
     private String message;
+
+    /**
+     * 延迟任务到期执行时，通过此topic通知消费端，进行延迟任务处理
+     */
+    private String topic;
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.koala.common.entity.Result;
 import com.koala.core.TimedTask;
 import com.koala.core.Timer;
+import com.koala.core.TimerExecutor;
 import com.koala.entity.BasicConfig;
 import com.koala.enums.DelayType;
 import lombok.extern.slf4j.Slf4j;
@@ -50,12 +51,17 @@ public class DelayQueueClient implements DelayRequestSender<DelayRequest> {
         try {
             // <= 当前时间，延迟任务会被立即执行
             if (delayRequest.getBusinessTime() <= System.currentTimeMillis()) {
+                // todo 直接发mq 或者现将任务存储到时间轮，因为时间会判断时间是否过期，如果过期也会立即执行
+                return Result.success(true);
+            } else {
+                // 1.获取时间轮，并将任务添加到其中
+                Timer timer = TimerExecutor.getInstance().getTimerByNamespace(delayRequest.getNamespace());
+                TimedTask timedTask = new TimedTask(delayRequest.getBusinessTime(), () -> System.out.println("task 1"));
+                timer.addTask(timedTask);
+                // 2.同步持久化任务信息到数据库（mysql，redis，es）
 
+                return Result.success(true);
             }
-            Timer timer = Timer.getInstance();
-            TimedTask timedTask1 = new TimedTask(21 * 1000L, () -> System.out.println("task 1"));
-            timer.addTask(timedTask1);
-            return Result.success(true);
         } catch (Exception e) {
             log.error("sendDelayRequest，接口发生异常：", e);
             return Result.error("sendDelayRequest，调用发生异常!");
