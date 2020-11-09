@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 /**
  * 持久化接口
  *
- * @author yaojia.mu@luckincoffee.com
+ * @author moon
  * @date 2020-11-02 21:18:32
  */
 @Component

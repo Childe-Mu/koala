@@ -5,6 +5,7 @@ import com.koala.core.TimedTask;
 import com.koala.core.Timer;
 import com.koala.core.TimerExecutor;
 import com.koala.durability.Durability;
+import com.koala.mq.Sender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,10 +26,19 @@ import java.util.stream.Collectors;
 @Service
 public class DelayQueueClient implements DelayRequestSender<DelayRequest> {
 
+    /**
+     * 数据持久化接口
+     */
     private final Durability durability;
 
-    public DelayQueueClient(Durability durability) {
+    /**
+     * 消息发送接口
+     */
+    private final Sender sender;
+
+    public DelayQueueClient(Durability durability, Sender sender) {
         this.durability = durability;
+        this.sender = sender;
     }
 
     @Override
@@ -41,18 +51,24 @@ public class DelayQueueClient implements DelayRequestSender<DelayRequest> {
         try {
             // <= 当前时间，延迟任务会被立即执行
             if (delayRequest.getBusinessTime() <= System.currentTimeMillis()) {
-                // todo 直接发mq 或者现将任务存储到时间轮，因为时间会判断时间是否过期，如果过期也会立即执行
                 // 1.直接执行任务（即发送消息）
-
+                sender.send(delayRequest);
                 // 2.执行成功以后，直接将数据保存至归档表
                 durability.addTaskToArchived(delayRequest);
                 return Result.success(true);
             } else {
                 // 1.获取时间轮，并将任务添加到其中
                 Timer timer = TimerExecutor.getInstance().getTimerByNamespace(delayRequest.getNamespace());
-                TimedTask timedTask = new TimedTask(delayRequest.getBusinessTime(), () -> System.out.println("task 1"));
+                // todo 添加事物以及失败重试
+                Runnable task = () -> {
+                    sender.send(delayRequest);
+                    durability.addTaskToArchived(delayRequest);
+                    durability.deleteTaskFromWaitExecute(delayRequest);
+                };
+                TimedTask timedTask = new TimedTask(delayRequest.getBusinessTime(), task);
                 timer.addTask(timedTask);
                 // 2.同步持久化任务信息到数据库（mysql，redis，es）
+                // todo 添加事物以及失败重试
                 durability.addTaskToWaitExecute(delayRequest);
                 return Result.success(true);
             }
@@ -61,6 +77,7 @@ public class DelayQueueClient implements DelayRequestSender<DelayRequest> {
             return Result.error("sendDelayRequest，调用发生异常!");
         }
     }
+
 
     @Override
     public Boolean sendDelayRequests(List<DelayRequest> delayRequests) {

@@ -8,7 +8,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
- * @author yaojia.mu@luckincoffee.com
+ * @author moon
  * @description
  * @date 2020-11-02 21:04:54
  */

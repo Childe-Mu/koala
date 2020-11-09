@@ -2,7 +2,7 @@ package com.koala.mq;
 
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
-import com.koala.common.enums.RocketMQErrorEnum;
+import com.koala.common.enums.ErrorCodeEnum;
 import com.koala.exception.RocketMQException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +45,10 @@ public class MQProducerConfiguration {
     @Bean
     public DefaultMQProducer getRocketMQProducer() throws RocketMQException {
         if (StringUtils.isEmpty(this.groupName)) {
-            throw new RocketMQException(RocketMQErrorEnum.PARAMM_NULL, "groupName is blank", false);
+            throw new RocketMQException(ErrorCodeEnum.PARAMM_NULL, "groupName is blank", false);
         }
         if (StringUtils.isEmpty(this.namesrvAddr)) {
-            throw new RocketMQException(RocketMQErrorEnum.PARAMM_NULL, "nameServerAddr is blank", false);
+            throw new RocketMQException(ErrorCodeEnum.PARAMM_NULL, "nameServerAddr is blank", false);
         }
         DefaultMQProducer producer;
         producer = new DefaultMQProducer(this.groupName);

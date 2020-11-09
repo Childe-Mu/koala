@@ -1,7 +1,7 @@
 package com.koala.exception;
 
 import com.koala.common.constant.ErrorCode;
-import com.koala.common.enums.RocketMQErrorEnum;
+import com.koala.common.enums.ErrorCodeEnum;
 
 /**
  * 消息异常
@@ -43,6 +43,6 @@ public class RocketMQException extends AppException{
         super(errCode,cause, errMsg);
     }
 
-    public RocketMQException(RocketMQErrorEnum parammNull, String s, boolean b) {
+    public RocketMQException(ErrorCodeEnum parammNull, String s, boolean b) {
     }
 }

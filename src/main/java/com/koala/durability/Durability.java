@@ -1,13 +1,14 @@
 package com.koala.durability;
 
 import com.koala.client.rpc.DelayRequest;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 持久化接口
  *
- * @author yaojia.mu@luckincoffee.com
+ * @author moon
  * @date 2020-11-02 21:14:27
  */
 @Mapper
@@ -28,4 +29,12 @@ public interface Durability {
      */
     @Insert("insert into *** set ***=##, ***=## ")
     void addTaskToArchived(DelayRequest delayRequest);
+
+    /**
+     * 将数据从待执行表删除
+     *
+     * @param delayRequest 任务数据
+     */
+    @Delete("delete from *** where ***=##, ***=## ")
+    void deleteTaskFromWaitExecute(DelayRequest delayRequest);
 }

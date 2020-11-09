@@ -3,7 +3,7 @@ package com.koala.mq;
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
-import com.koala.common.enums.RocketMQErrorEnum;
+import com.koala.common.enums.ErrorCodeEnum;
 import com.koala.exception.RocketMQException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +40,13 @@ public class MQConsumerConfiguration {
     @Bean
     public DefaultMQPushConsumer getRocketMQConsumer() throws RocketMQException {
         if (StringUtils.isEmpty(groupName)) {
-            throw new RocketMQException(RocketMQErrorEnum.PARAMM_NULL, "groupName is null !!!", false);
+            throw new RocketMQException(ErrorCodeEnum.PARAMM_NULL, "groupName is null !!!", false);
         }
         if (StringUtils.isEmpty(namesrvAddr)) {
-            throw new RocketMQException(RocketMQErrorEnum.PARAMM_NULL, "namesrvAddr is null !!!", false);
+            throw new RocketMQException(ErrorCodeEnum.PARAMM_NULL, "namesrvAddr is null !!!", false);
         }
         if (StringUtils.isEmpty(topics)) {
-            throw new RocketMQException(RocketMQErrorEnum.PARAMM_NULL, "topics is null !!!", false);
+            throw new RocketMQException(ErrorCodeEnum.PARAMM_NULL, "topics is null !!!", false);
         }
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setNamesrvAddr(namesrvAddr);
