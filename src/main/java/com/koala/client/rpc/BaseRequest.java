@@ -21,12 +21,13 @@ import java.util.concurrent.TimeUnit;
 public class BaseRequest implements Serializable {
 
     /**
-     * 业务线主键（例如订单id），请务必保证唯一，该值会在消息到期后通过mq返回给业务端
+     * 业务线主键（例如订单id），请务必保证唯一，
+     * 该值会在消息到期后通过mq返回给业务端(长度不超过32个字符)
      */
     private String businessId;
 
     /**
-     * 延迟任务命名空间
+     * 延迟任务命名空间（长度不超过64个字符）
      */
     private String namespace;
 

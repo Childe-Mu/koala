@@ -13,6 +13,12 @@ public enum ErrorCodeEnum implements EnumValues {
      * 处理任务时，发送消息失败
      */
     ERROR_SEND_MQ(1, "EC001", "处理任务时，发送消息失败"),
+
+    /**
+     * 处理任务时，发送消息失败
+     */
+    ERROR_ENQUEUE(1, "EC002", "延迟任务入队失败"),
+
     ;
 
     /**
